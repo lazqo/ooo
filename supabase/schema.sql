@@ -1,8 +1,6 @@
 -- PartnerPilot Database Schema
 -- Run this in your Supabase SQL editor
 
--- Enable RLS
-alter database postgres set "app.jwt_secret" to 'your-jwt-secret';
 
 -- Users table (extends Supabase auth.users)
 create table if not exists public.user_profiles (
