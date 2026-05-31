@@ -2,9 +2,12 @@ import OpenAI from 'openai';
 import { PartnerProfile, MessageType, GeneratedMessages, ApologyReason } from './types';
 
 const openai = new OpenAI({
-  apiKey: process.env.EXPO_PUBLIC_OPENAI_API_KEY,
+  apiKey: process.env.EXPO_PUBLIC_GROQ_API_KEY,
+  baseURL: 'https://api.groq.com/openai/v1',
   dangerouslyAllowBrowser: true,
 });
+
+const MODEL = 'llama-3.3-70b-versatile';
 
 const MESSAGE_TYPE_LABELS: Record<MessageType, string> = {
   good_morning: 'good morning message',
@@ -57,7 +60,7 @@ export async function generateMessages(
   customContext?: string
 ): Promise<GeneratedMessages> {
   const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: MODEL,
     messages: [
       { role: 'system', content: buildSystemPrompt(profile) },
       {
@@ -87,7 +90,7 @@ export async function generateApology(
   reason: ApologyReason
 ): Promise<string> {
   const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: MODEL,
     messages: [
       {
         role: 'system',
@@ -107,7 +110,7 @@ export async function generateApology(
 
 export async function generateReconnectMessage(profile: PartnerProfile): Promise<string> {
   const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: MODEL,
     messages: [
       {
         role: 'system',
@@ -133,7 +136,7 @@ export async function generateDateIdeas(
   withKids: boolean
 ): Promise<string[]> {
   const response = await openai.chat.completions.create({
-    model: 'gpt-4o',
+    model: MODEL,
     messages: [
       {
         role: 'system',
